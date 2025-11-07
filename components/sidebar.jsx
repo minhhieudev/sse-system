@@ -119,10 +119,7 @@ const hrSection = {
 };
 
 const navigationSections = (() => {
-  const filtered = baseSections.map((section) => ({
-    ...section,
-    items: section.items.filter((it) => !HR_IDS.includes(it.id)),
-  }));
+  const filtered = baseSections.filter((section) => section.title !== "NHÂN SỰ");
   return [
     ...filtered.slice(0, 3),
     hrSection,
