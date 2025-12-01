@@ -23,18 +23,20 @@ import { Chip } from "@heroui/chip";
 import { Input } from "@heroui/input";
 
 import { siteConfig } from "../config/site.js";
-import { getCurrentUser, getRoleInfo } from "../lib/auth.js";
-import UserSwitcher from "./UserSwitcher.jsx";
+import { getRoleInfo } from "../lib/auth.js";
+import { useAuthStore } from "../store/useAuthStore.js";
 
 export const Header = () => {
   const router = useRouter();
   const { trackingPlaceholder } = siteConfig;
   const [now, setNow] = useState(() => new Date());
-  const [currentUser, setCurrentUser] = useState(null);
+  const currentUser = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
 
-  useEffect(() => {
-    setCurrentUser(getCurrentUser());
-  }, []);
+  const handleLogout = () => {
+    logout();
+    router.push("/auth");
+  };
 
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);
@@ -275,7 +277,6 @@ export const Header = () => {
           </Dropdown>
 
           {/* User Role Switcher */}
-          <UserSwitcher />
 
           {/* USER DROPDOWN */}
           {currentUser ? (
@@ -288,7 +289,7 @@ export const Header = () => {
                   {/* User Info - Text First */}
                   <div className="leading-tight text-left">
                     <p className="text-sm font-medium text-slate-700">
-                      {currentUser.name}
+                      {currentUser.name || currentUser.username}
                     </p>
                     <p className="text-xs text-slate-500">
                       {getRoleInfo(currentUser.role)?.label || currentUser.role}
@@ -298,7 +299,7 @@ export const Header = () => {
                   {/* Avatar - Round Photo */}
                   <div className="relative flex-shrink-0">
                     <img
-                      src={currentUser.avatarUrl || "https://randomuser.me/api/portraits/men/32.jpg"}
+                      src={currentUser.avatar || "https://randomuser.me/api/portraits/men/32.jpg"}
                       alt={currentUser.name}
                       className="h-9 w-9 rounded-full object-cover border-2 border-blue-200"
                     />
@@ -327,7 +328,7 @@ export const Header = () => {
                 >
                   <div>
                     <p className="font-bold text-slate-900">
-                      {currentUser.name}
+                      {currentUser.name || currentUser.username}
                     </p>
                     <p className="text-xs text-slate-500 mt-0.5">
                       Xem hồ sơ cá nhân
@@ -396,6 +397,7 @@ export const Header = () => {
                       <LogOut className="h-4 w-4" />
                     </div>
                   }
+                  onPress={handleLogout}
                 >
                   <div>
                     <p className="font-semibold">Đăng xuất</p>
@@ -411,7 +413,7 @@ export const Header = () => {
               startContent={
                 <LogOut className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
               }
-              onPress={() => router.push("/login")}
+              onPress={() => router.push("/auth")}
             >
               <span className="relative z-10">Đăng nhập</span>
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />

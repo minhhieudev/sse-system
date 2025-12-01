@@ -139,13 +139,14 @@ export const useLayoutStore = create(
           pageSize: state.pageSize,
           sortField: state.sortField,
           sortDirection: state.sortDirection,
-          // Convert Set to Array for persistence
-          selectedOrders: Array.from(state.selectedOrders),
         }),
         // Convert Array back to Set on rehydration
         onRehydrateStorage: () => (state) => {
+          // Ensure selectedOrders is a Set if it was somehow persisted or just initialize it
           if (state && Array.isArray(state.selectedOrders)) {
             state.selectedOrders = new Set(state.selectedOrders);
+          } else if (state && !state.selectedOrders) {
+            state.selectedOrders = new Set();
           }
         },
       },

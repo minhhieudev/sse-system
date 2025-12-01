@@ -572,22 +572,21 @@ export default function OrdersPage() {
 
             <div className="flex items-center gap-1.5">
               <button
-                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 px-4 py-2 text-sm font-bold text-white shadow-lg transition-all hover:shadow-xl hover:scale-105 active:scale-95"
+                className="flex h-9 items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 px-3 text-sm font-bold text-white shadow-md transition-all hover:shadow-lg hover:scale-105 active:scale-95"
                 type="button"
                 onClick={() => router.push('/quick-order')}
               >
-                <Plus className="h-5 w-5" />
+                <Plus className="h-4 w-4" />
                 <span>Tạo đơn hàng</span>
               </button>
 
               {quickActions.map(({ icon: Icon, id, label }) => (
                 <button
                   key={id}
-                  className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
-                    bulkActionLoading === id
+                  className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${bulkActionLoading === id
                       ? "bg-blue-200 text-blue-800 cursor-not-allowed"
                       : "bg-blue-100 text-blue-700 hover:bg-blue-200"
-                  }`}
+                    }`}
                   title={label}
                   type="button"
                   disabled={bulkActionLoading === id}
@@ -698,17 +697,17 @@ export default function OrdersPage() {
           >
             <TableHeader>
               <TableColumn className="w-12">
-              <Checkbox
-                isIndeterminate={someVisibleSelected}
-                isSelected={allVisibleSelected}
-                size="md"
-                radius="md"
-                classNames={{
-                  wrapper: "w-5 h-5 before:border-1",
-                  icon: "w-3.5 h-3.5"
-                }}
-                onValueChange={handleToggleAll}
-              />
+                <Checkbox
+                  isIndeterminate={someVisibleSelected}
+                  isSelected={allVisibleSelected}
+                  size="md"
+                  radius="md"
+                  classNames={{
+                    wrapper: "w-5 h-5 before:border-1",
+                    icon: "w-3.5 h-3.5"
+                  }}
+                  onValueChange={handleToggleAll}
+                />
               </TableColumn>
               <TableColumn className="w-16">STT</TableColumn>
               <TableColumn>Mã AWB / REF Code</TableColumn>
@@ -911,15 +910,14 @@ export default function OrdersPage() {
                       key={stepKey}
                       role="button"
                       tabIndex={canAccess && !isCurrent ? 0 : -1}
-                      className={`p-3 rounded-lg border-2 transition-all ${
-                        isCompleted
+                      className={`p-3 rounded-lg border-2 transition-all ${isCompleted
                           ? 'bg-green-50 border-green-300'
                           : isCurrent
-                          ? 'bg-blue-50 border-blue-300'
-                          : canAccess
-                          ? 'bg-white border-slate-200 hover:border-blue-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500'
-                          : 'bg-slate-50 border-slate-200 opacity-50'
-                      }`}
+                            ? 'bg-blue-50 border-blue-300'
+                            : canAccess
+                              ? 'bg-white border-slate-200 hover:border-blue-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500'
+                              : 'bg-slate-50 border-slate-200 opacity-50'
+                        }`}
                       onClick={() => canAccess && !isCurrent && handleWorkflowAction(workflowModal.order, stepKey)}
                       onKeyDown={(e) => {
                         if ((e.key === 'Enter' || e.key === ' ') && canAccess && !isCurrent) {
@@ -934,10 +932,9 @@ export default function OrdersPage() {
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <span className={`text-sm font-medium ${
-                              isCompleted ? 'text-green-800' :
-                              isCurrent ? 'text-blue-800' : 'text-slate-600'
-                            }`}>
+                            <span className={`text-sm font-medium ${isCompleted ? 'text-green-800' :
+                                isCurrent ? 'text-blue-800' : 'text-slate-600'
+                              }`}>
                               Bước {index + 1}: {stepInfo.label}
                             </span>
                             {isCompleted && <span className="text-green-600">✓</span>}

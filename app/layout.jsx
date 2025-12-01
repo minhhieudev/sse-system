@@ -11,7 +11,7 @@ import { Header } from "@/components/header";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  const isLoginPage = pathname === "/login";
+  const isLoginPage = pathname === "/login" || pathname.startsWith("/auth");
   const isTrackingPage = pathname === "/tracking";
 
   return (
